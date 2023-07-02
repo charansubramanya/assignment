@@ -1,12 +1,42 @@
 pipeline{
     agent any
-    stages{
-      stage("mvn build") {
+     stages{
+         stage("Clean") {
             steps {
-                sh "mvn clean install"
+                sh "mvn clean"
+            }
+    }
+     stage("validate") {
+            steps {
+                sh "mvn validate"
             }
       }
-      stage('Build and Push Docker Image') {
+      stage("compile") {
+            steps {
+                sh "mvn compile"
+            }
+      }
+     stage("test compile") {
+            steps {
+                sh "mvn test-compile"
+            }
+      }
+      stage("test") {
+            steps {
+                sh "mvn test"
+            }
+      }
+      stage("package") {
+            steps {
+                sh "mvn package"
+            }
+      }
+      stage("install") {
+            steps {
+                sh "mvn install"
+            }
+      }
+  stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "charan0019/assignment:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
