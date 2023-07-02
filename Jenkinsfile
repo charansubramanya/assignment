@@ -1,4 +1,12 @@
-stage('Build and Push Docker Image') {
+pipeline{
+    agent any
+    stages{
+      stage("mvn build") {
+            steps {
+                sh "mvn clean install"
+            }
+      }
+      stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "charan0019/assignment:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
@@ -14,3 +22,5 @@ stage('Build and Push Docker Image') {
         }
       }
     }
+}
+}
