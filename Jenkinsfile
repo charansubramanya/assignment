@@ -1,12 +1,32 @@
 pipeline{
     agent any
      stages{
-      stage("build and test") {
+       stages{
+         stage("Clean") {
             steps {
-                sh "mvn clean package"
+                sh "mvn clean"
+            }
+    }
+     stage("validate") {
+            steps {
+                sh "mvn validate"
             }
       }
-     
+      stage("compile") {
+            steps {
+                sh "mvn compile"
+            }
+      }
+     stage("test compile") {
+            steps {
+                sh "mvn test-compile"
+            }
+      }
+      stage("package") {
+            steps {
+                sh "mvn package"
+            }
+      }
   stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "charan0019/assignment:${BUILD_NUMBER}"
